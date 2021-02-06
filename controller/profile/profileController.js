@@ -108,10 +108,82 @@ const getUserById = async (req, res, next) => {
 
 }
 
+/**
+ * 
+ * @route         DELETE api/profile/
+ * @description   Deletes user profile
+ * @access        Private 
+ */
+const deleteUserProfile = async (req, res, next) => {
 
+
+    const { user } = req;
+
+    const profile = await Profile.deleteOne({ user });
+
+
+    if (profile instanceof Error) {
+
+        return next(new ErrorResponse(profile, 500));
+
+    }
+
+    return res.status(200).send({ message: "Successfully deleted profile " });
+
+}
+
+/**
+ * 
+ * @route         PUT /api/profile/experience
+ * @description   Update user experiences 
+ * @access        Private
+ */
+
+const profileExperiences = async (req, res, next) => {
+
+    const { user, body: { title, to, from, company, location, current, description } } = req;
+
+    const newExp = {
+        title,
+        to,
+        from,
+        company,
+        location,
+        current,
+        description
+    }
+
+    const profile = await Profile.findOne({ user });
+
+    if (!profile) {
+        return next(new ErrorResponse('No User found', 404));
+    }
+
+    profile.experience.unshift(newExp);
+
+    const updatedProfile = await profile.save();
+
+    if (updatedProfile instanceof Error) {
+
+        return next(updatedProfile);
+    }
+
+
+    return res.status(200).send({ updatedProfile });
+}
+
+
+
+
+const deleteExperiences = async (req, res, next) => {
+
+
+
+
+}
 
 
 
 module.exports = {
-    getCurrentUser, createPosts, allProfiles, getUserById
+    getCurrentUser, createPosts, allProfiles, getUserById, deleteUserProfile, profileExperiences, deleteExperiences
 }

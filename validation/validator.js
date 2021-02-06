@@ -101,3 +101,40 @@ module.exports.postsValidator = [
 
 
 ]
+
+
+module.exports.experienceValidator = [
+
+    check('title')
+        .not()
+        .isEmpty()
+        .withMessage('title cannot be empty')
+        .bail(),
+
+    check('company')
+        .not()
+        .isEmpty()
+        .withMessage('Name of the Company is required')
+        .bail(),
+
+    check('from')
+        .not()
+        .isEmpty()
+        .withMessage('From cannot be blank')
+        .bail(),
+
+    async (req, res, next) => {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+
+            return next(new ErrorResponse({ error: errors.array() }, 400));
+
+        }
+        next();
+    }
+
+
+
+
+]

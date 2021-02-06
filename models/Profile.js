@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('../models/User');
 
 const ProfileSchema = new mongoose.Schema({
     user: {
@@ -111,5 +112,21 @@ const ProfileSchema = new mongoose.Schema({
         default: Date.now
     }
 });
+
+
+ProfileSchema.pre('deleteOne', async function () {
+
+    const profile = this;
+
+
+    try {
+        await User.deleteOne({ _id: this._conditions.user });
+
+    } catch (e) {
+        throw new Error('Error While deleting ')
+    }
+
+
+})
 
 module.exports = mongoose.model('profile', ProfileSchema);

@@ -1,8 +1,12 @@
 
 const router = require('express').Router();
 const { verifyToken } = require('../middleware/jwtToken');
-const { getCurrentUser, createPosts, allProfiles, getUserById } = require('../controller/profile/profileController');
-const { postsValidator } = require('../validation/validator');
+const { getCurrentUser,
+    createPosts,
+    allProfiles,
+    getUserById,
+    deleteUserProfile, profileExperiences, deleteExperiences } = require('../controller/profile/profileController');
+const { postsValidator, experienceValidator } = require('../validation/validator');
 const asyncHandler = require('../middleware/asyncErrorHandler');
 
 
@@ -14,9 +18,18 @@ router
 router
     .route('/')
     .post(verifyToken, postsValidator, asyncHandler(createPosts))
-    .get(asyncHandler(allProfiles));
+    .get(asyncHandler(allProfiles))
+    .delete(verifyToken, asyncHandler(deleteUserProfile));
 
 
+router
+    .route('/experience')
+    .put(verifyToken, experienceValidator, asyncHandler(profileExperiences));
+
+
+router
+    .route('/experience/:id')
+    .delete(verifyToken, asyncHandler(deleteExperiences));
 
 router
     .route('/user/:id')

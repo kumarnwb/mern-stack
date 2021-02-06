@@ -11,7 +11,7 @@ const gravatar = require('gravatar');
  * @access Public 
  */
 
-const registerUser = async (req, res, next) => {
+const createUser = async (req, res, next) => {
 
     const { name, email, password } = req.body;
 
@@ -43,7 +43,7 @@ const registerUser = async (req, res, next) => {
             return;
         }
 
-        return res.send(token)
+        return res.send({token})
 
     } catch (e) {
 
@@ -57,5 +57,5 @@ const registerUser = async (req, res, next) => {
 
 
 module.exports = {
-    registerUser
+    createUser
 }
