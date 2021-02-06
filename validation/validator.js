@@ -1,4 +1,5 @@
 const { check, validationResult } = require('express-validator');
+const ErrorResponse = require('../util/ErrorResponse');
 
 
 module.exports.registerationValidation = [
@@ -75,3 +76,28 @@ module.exports.loginValidator = [
 ]
 
 
+module.exports.postsValidator = [
+
+    check('status')
+        .not()
+        .isEmpty()
+        .withMessage('Status cannot be blank')
+        .bail(),
+    check('skills')
+        .not()
+        .isEmpty()
+        .withMessage('Skills cannot be blank')
+        .bail(),
+
+    (req, res, next) => {
+
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty) {
+            return next(new ErrorResponse({ message: errors.array() }, 400));
+        }
+        next();
+    }
+
+
+]
