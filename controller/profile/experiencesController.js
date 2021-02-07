@@ -1,3 +1,4 @@
+const Profile = require('../../models/Profile');
 const { populateAddEducationSchema } = require('./populateSchema');
 
 /**
@@ -7,7 +8,6 @@ const { populateAddEducationSchema } = require('./populateSchema');
  * @access        Private
  */
 
-const { populateAddEducationSchema } = require("./populateSchema");
 
 const profileExperiences = async (req, res, next) => {
 
@@ -114,10 +114,33 @@ const addEducation = async (req, res, next) => {
 }
 
 
-
+/**
+ * 
+ * @route        DELETE /api/profile/education/:eduId 
+ * @description  Remove education from User's profile
+ * @access       Private
+ */
 const deleteEducation = async (req, res, next) => {
 
-    const profile =
+    const { user, params: { eduId } } = req;
+    const profile = await Profile.findOne({ user });
+
+    if (!profile || profile instanceof Error) {
+        return next(profile);
+    }
+
+    const index = profile.education.map(item => item.id).indexOf(eduId);
+    profile.education.splice(index, 1);
+
+    const updatedProfile = await profile.save();
+
+    if (!updatedProfile || updatedProfile instanceof Error) {
+
+        return next(updatedProfile);
+    }
+
+    return res.status(200).send({ updatedProfile });
+
 
 }
 

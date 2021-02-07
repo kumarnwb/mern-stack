@@ -141,18 +141,23 @@ module.exports.experienceValidator = [
 module.exports.addEducationValidator = [
 
     check('school', 'School is Required')
-        .notEmpty(),
+        .not()
+        .isEmpty(),
+
     check('degree', 'Degree is Required')
-        .notEmpty(),
+        .not()
+        .isEmpty(),
     check('fieldofstudy', 'Field of Study is Required')
-        .notEmpty(),
+        .not()
+        .isEmpty(),
     check('from', 'From Date is Required')
-        .notEmpty(),
+        .not()
+        .isEmpty(),
     (req, res, next) => {
 
         const errors = validationResult(req);
-        console.log(`Errors from addEducationValidator : ${errors}`)
-        if (errors) {
+        console.log(`Errors from addEducationValidator : ${JSON.stringify(errors)}`)
+        if (!errors.isEmpty()) {
             const message = {
                 "message": "Not a valid request",
                 error: errors.array()

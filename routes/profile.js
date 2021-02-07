@@ -35,7 +35,7 @@ router
     .put(verifyToken, addEducationValidator, asyncHandler(addEducation));
 
 router
-    .route('/education:id')
+    .route('/education/:eduId')
     .delete(verifyToken, asyncHandler(deleteEducation));
 
 module.exports = router;
