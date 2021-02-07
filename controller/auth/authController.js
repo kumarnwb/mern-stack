@@ -3,56 +3,40 @@ const ErrorResponse = require('../../util/ErrorResponse');
 const { validatePasswordForLogin } = require('../../util/validatePassword');
 const { generateToken } = require('../../middleware/jwtToken');
 
-
-
 /**
- * 
+ *
  * @route          GET /api/auth
  * @description    get user information based on token
  * @access         Public
  */
 const getUser = async (req, res, next) => {
-
-    console.log(req.user)
-    const user = await User.findById(req.user).select('-password')
-    console.log(user)  
-    return res.send(user);
-}
-
-
+  console.log(req.user);
+  const user = await User.findById(req.user).select('-password');
+  console.log(user);
+  return res.send(user);
+};
 
 const loginUser = async (req, res, next) => {
+  const { email, password } = req.body;
 
-    const { email, password } = req.body;
+  const user = await User.findOne({ email });
 
-    const user = await User.findOne({ email });
+  if (!user) {
+    return next(new ErrorResponse('No  registered user found', 404));
+  }
 
-    if (!user) {
+  const isPasswordAMatch = await validatePasswordForLogin(password, user.password);
 
-        return next(new ErrorResponse(`No  registered user found`, 404));
-    }
+  if (!isPasswordAMatch) {
+    return next(new ErrorResponse('Credentials does not match ', 401));
+  }
 
-    const isPasswordAMatch = await validatePasswordForLogin(password, user.password);
+  const token = generateToken(user.id);
+  if (token instanceof Error) {
+    return next(new ErrorResponse('Service down', 500));
+  }
 
-    if (!isPasswordAMatch) {
+  return res.send({ token });
+};
 
-        return next(new ErrorResponse(`Credentials does not match `, 401));
-    }
-
-
-    const token = generateToken(user.id);
-    if (token instanceof Error) {
-
-        return next(new ErrorResponse(`Service down`, 500));
-    }
-
-    return res.send({ token })
-
-
-}
-
-
-
-
-
-module.exports = { getUser, loginUser }
+module.exports = { getUser, loginUser };

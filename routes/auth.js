@@ -5,13 +5,11 @@ const { loginValidator } = require('../validation/validator');
 const { getUser, loginUser } = require('../controller/auth/authController');
 
 router
-    .route('/')
-    .post(verifyToken, getUser)
+  .route('/')
+  .post(verifyToken, getUser);
 
 router
-    .route('/login')
-    .post(loginValidator, asyncHandler(loginUser))
-
-
+  .route('/login')
+  .post(loginValidator, asyncHandler(loginUser));
 
 module.exports = router;
