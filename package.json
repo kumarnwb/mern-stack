@@ -9,7 +9,8 @@
     "lintFull": "eslint \"./**/*.js\"",
     "lintFix": "eslint --fix './**/*.js'",
     "start": "node index.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "practise": "node practise/practise.js"
   },
   "dependencies": {
     "app-root-path": "^3.0.0",

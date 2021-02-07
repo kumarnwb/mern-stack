@@ -27,5 +27,21 @@ const populateProfileSchema = ({ user, body }) => {
 
 
 
+const populateAddEducationSchema = ({ user, body }) => {
 
-module.exports = { populateProfileSchema };
+    const { school, degree, to, from, fieldofstudy, current, description } = body;
+    const education = {
+        school,
+        degree,
+        to,
+        from,
+        fieldofstudy,
+        current,
+        description
+    };
+    return education;
+}
+
+
+
+module.exports = { populateProfileSchema, populateAddEducationSchema };
