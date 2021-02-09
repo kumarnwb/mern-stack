@@ -1,4 +1,8 @@
-# 
+![David](https://img.shields.io/david/kumarnwb/mern-stack) 
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kumarnwb/mern-stack)
+![Lines of code](https://img.shields.io/tokei/lines/github/kumarnwb/mern-stack)
+![GitHub repo size](https://img.shields.io/github/repo-size/kumarnwb/mern-stack)
+![GitHub all releases](https://img.shields.io/github/downloads/kumarnwb/mern-stack/total)
 
 ## Table of Contents
 -----------------------------------
