@@ -143,13 +143,26 @@ module.exports.addEducationValidator = [
     .isEmpty(),
   (req, res, next) => {
     const errors = validationResult(req);
-    console.log(`Errors from addEducationValidator : ${JSON.stringify(errors)}`);
     if (!errors.isEmpty()) {
       const message = {
         message: 'Not a valid request',
         error: errors.array()
       };
       return next(new ErrorResponse(message, 400));
+    }
+    next();
+  }
+
+];
+
+module.exports.createPostValidator = [
+  check('text', 'Text is Required')
+    .not()
+    .isEmpty(),
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new ErrorResponse(`Errors : ${errors.array()}`, 400));
     }
     next();
   }

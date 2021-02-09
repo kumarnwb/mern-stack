@@ -4,8 +4,9 @@ const {
   getCurrentUser, createPosts, allProfiles, getUserById, deleteUserProfile
 } = require('../controller/profile/profileController');
 const {
-  deleteExperiences, profileExperiences, addEducation, deleteEducation
-,getUserGithubProfile} = require('../controller/profile/experiencesController');
+  deleteExperiences, profileExperiences, addEducation, deleteEducation,
+  getUserGithubProfile
+} = require('../controller/profile/experiencesController');
 const { postsValidator, experienceValidator, addEducationValidator } = require('../validation/validator');
 const asyncHandler = require('../middleware/asyncErrorHandler');
 
